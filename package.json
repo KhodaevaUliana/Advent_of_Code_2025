@@ -1,0 +1,13 @@
+{
+  "name": "advent-of-code-solver",
+  "version": "1.0.0",
+  "description": "Simple Advent of Code problem solver",
+  "main": "solve.js",
+  "type": "module",
+  "scripts": {
+    "start": "node solve.js"
+  },
+  "keywords": ["advent-of-code"],
+  "author": "",
+  "license": "MIT"
+}
