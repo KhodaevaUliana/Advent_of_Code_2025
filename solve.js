@@ -6,11 +6,31 @@ function readInput(filename = 'input.txt') {
 
 function part1(input) {
   const lines = input.split('\n');
-  
   console.log('Part 1:');
   console.log('Input has', lines.length, 'lines');
+
+  let position = 50;
+  const dialSize = 100;
+  let zerosCounter = 0;
   
-  return 0;
+  for (let line of lines) {
+    const [_, direction, amount] = line.match(/^([LR])(\d+)$/);
+    if (direction == 'L') {
+      position = (position - Number(amount) + dialSize) % dialSize;
+    }
+    if (direction == 'R') {
+      position = (position + Number(amount) + dialSize) % dialSize;
+    }
+
+    if (position === 0) {
+      zerosCounter++;
+    }
+    
+    //console.log(position);
+  }
+  
+  
+  return zerosCounter;
 }
 
 function part2(input) {
