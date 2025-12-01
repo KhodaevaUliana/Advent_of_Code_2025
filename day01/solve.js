@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 
-function readInput(filename = 'input.txt') {
+function readInput(filename = 'day01/input.txt') {
   return readFileSync(filename, 'utf-8').trim();
 }
 
