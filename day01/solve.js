@@ -7,7 +7,7 @@ function readInput(filename = 'day01/input.txt') {
 function part1(input) {
   const lines = input.split('\n');
   console.log('Part 1:');
-  console.log('Input has', lines.length, 'lines');
+  //console.log('Input has', lines.length, 'lines');
 
   let position = 50;
   const dialSize = 100;
@@ -37,9 +37,44 @@ function part2(input) {
   const lines = input.split('\n');
   
   console.log('Part 2:');
-  console.log('Input has', lines.length, 'lines');
-  
-  return 0;
+  //console.log('Input has', lines.length, 'lines');
+  let position = 50;
+  const dialSize = 100;
+  let zerosCounter = 0;
+
+  for (let line of lines) {
+    const [_, direction, amount] = line.match(/^([LR])(\d+)$/);
+    if (direction == 'L') {
+      if (position == 0) {
+        zerosCounter--;
+      }
+      position -= Number(amount);
+      let posModulo = position % dialSize;
+      if (posModulo < 0) {
+        posModulo += dialSize;
+      }
+      if (posModulo == 0) {
+        zerosCounter += 1;
+      }
+      zerosCounter += (posModulo - position) / dialSize;
+      position = posModulo;
+    }
+    if (direction == 'R') {
+      position += Number(amount);
+      let posModulo = position % dialSize;
+      if (posModulo < 0) {
+        posModulo += dialSize;
+      }
+    
+      zerosCounter += (position - posModulo) / dialSize;
+      position = posModulo;
+    }
+
+  }
+
+
+  return zerosCounter;
+
 }
 
 function main() {
