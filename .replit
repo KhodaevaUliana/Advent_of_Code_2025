@@ -21,7 +21,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node day01/solve.js"
+args = "node day02/solve.js"
 
 [workflows.workflow.metadata]
 outputType = "console"
