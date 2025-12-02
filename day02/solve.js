@@ -38,12 +38,57 @@ function analyzePair(num1, num2) {
 }
 
 function part2(input) {
-  const lines = input.split('\n');
-
+  const pairs = input.split(',');
   console.log('Part 2:');
 
+  let sum = 0;
+  for (let pair of pairs) {
+    let nums = pair.split('-');
+    let invIDsum = analyzePairNewRules(nums[0], nums[1]);
+    sum += invIDsum;
+  }
+  return sum;
 
 }
+
+function analyzePairNewRules(num1, num2) {
+  let minBase = 2;
+  let maxBase = num2.length;
+
+  let resSet = new Set();
+  for (let base = minBase; base <= maxBase; base++) {
+    const resBase = analyzePairByN(num1, num2, base);
+    resBase.forEach(el => resSet.add(el));
+  }
+
+  let sum = 0;
+  for (let num of resSet) {
+    sum += num;
+  }
+  
+  return sum;
+}
+
+function analyzePairByN (num1, num2, base) {
+    let chunk;
+    if (num1.length % base == 0) {
+      chunk = num1.substring(0, Math.floor(num1.length / base));
+    } else {
+      chunk = String(Math.pow(10, Math.floor(num1.length / base)));
+    }
+    let repChunk = chunk.repeat(base);
+    const resSet = new Set();
+    if (Number(repChunk) < Number(num1)) {
+      chunk = String(Number(chunk) + 1);
+      repChunk = chunk.repeat(base);
+    }
+    while (Number(repChunk) <= Number(num2)) {
+      resSet.add(Number(repChunk));
+      chunk = String(Number(chunk) + 1);
+      repChunk = chunk.repeat(base);
+    }
+    return resSet;
+  }
 
 function main() {
   const input = readInput();
