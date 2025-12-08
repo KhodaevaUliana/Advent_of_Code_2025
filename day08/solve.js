@@ -92,14 +92,61 @@ function boxDist(box1, box2) {
   return (box1[0] - box2[0])**2 + (box1[1] - box2[1])**2 + (box1[2] - box2[2])**2;
 }
 
-
-
 function part2(input) {
   const lines= input.split('\n');
 
-  console.log('Part 2:');
+  const boxes = readOffBoxes(lines);
+  const dist = pairDistances(boxes);
+  const pairsSort = Array.from(dist.keys()).sort((a, b) => dist.get(a) - dist.get(b));
 
+
+  const circuits = [];
+
+
+  let i = 0;
+
+  
+
+  while (circuits.length === 0 || circuits.length > 1 || (circuits.length === 1 && circuits[0].size < boxes.size)){
+    const pair = pairsSort[i];
+    i++;
+    let indFirst = findBoxInCircuits(circuits, pair[0]);
+    let indSecond = findBoxInCircuits(circuits, pair[1]);
+    if (indFirst != -1) {
+      if (indSecond != -1) {
+        if (indFirst != indSecond) {
+          if (indFirst < indSecond) {
+            circuits[indSecond].forEach(el => circuits[indFirst].add(el));
+            circuits.splice(indSecond, 1);
+          } else {
+            circuits[indFirst].forEach(el => circuits[indSecond].add(el));
+            circuits.splice(indFirst, 1);
+          }
+        }
+      } else {
+        circuits[indFirst].add(pair[1]);
+      }
+      continue;
+    }
+    if (indSecond != -1) {
+      circuits[indSecond].add(pair[0]);
+      continue;
+    }
+
+    const newSet = new Set();
+    newSet.add(pair[0]);
+    newSet.add(pair[1]);
+    circuits.push(newSet);
+
+   
+
+  }
+  
+  console.log('Part 2:');
+  return boxes.get(pairsSort[i - 1][0])[0] *  boxes.get(pairsSort[i - 1][1])[0];
 }
+
+
 
 function main() {
   const input = readInput();
